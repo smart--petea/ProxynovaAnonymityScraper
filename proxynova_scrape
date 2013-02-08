@@ -1,0 +1,20 @@
+#!/usr/bin/python2
+from scrapy.settings import CrawlerSettings
+from proxynova import settings
+from scrapy import log
+import sys
+from scrapy.crawler import CrawlerProcess
+
+
+MySettings = CrawlerSettings(settings_module = settings)
+
+MyCrawler = CrawlerProcess(MySettings)
+
+MyCrawler.configure()
+log.start_from_crawler(MyCrawler)
+
+for spider_object in MyCrawler.spiders._spiders.itervalues():
+	MyCrawler.crawl(spider_object())
+
+MyCrawler.start()
+
